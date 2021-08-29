@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -18,4 +19,5 @@ def search():
     return redirect('S0101.geojson')
 
 
-app.run(port=3000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000, debug=False)
