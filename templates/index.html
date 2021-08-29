@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>土地使用分區api</title>
+</head>
+<body>
+    <div class="container">
+        <h1>土地使用分區 GeoJSON</h1>
+        <form action="/search">
+            <p>請選擇縣市</p>
+            <select name="district" id="district_list" onchange="change_area(this.selectedIndex)"></select>
+            <br>
+            <br>
+            <p>請選擇都計區</p>
+            <select name="area" id="area_list"></select>
+            <br>
+            <br>
+            <button>下載</button>
+        </form>
+        <script type="text/javascript">
+            var districts=['','高雄市','台南市'];
+            //document就是這html文件。
+            //getElementById是裡面的方法，參數給"college-list"抓到這id標籤列
+            var DistrictSelect=document.getElementById("district_list");
+            //製造一個字串，以html的語法填入院的陣列
+            var inner="";
+            for(var i=0;i<districts.length;i++){
+                //inner第一行就會像是 <option value=0>商學院</option>
+                inner=inner+'<option value='+i+'>'+districts[i]+'</option>';
+            }
+            //innerHTML 賦值inner給這element屬性
+            DistrictSelect.innerHTML=inner;
+            /*
+            其實就是用程式碼的方式把XML文件修改成這樣
+            <select id="college-list">
+                <option value="0">商學院</option>
+                <option value="1">工學院</option>
+                <option value="2">建設學院</option>
+                <option value="3">建築專業學院</option>		
+                ....		
+            </select>
+            */
+            //這裡放系所的陣列(有順序性，對應各學院的資料)
+            var sectors=new Array();
+            sectors[0]=['']
+            sectors[1]=['旗山都市計畫','美濃都市計畫','茄萣都市計畫']
+            sectors[2]=['高雄市都市計畫','高雄多功能經貿園區特定區計畫','鳳山主要計畫','岡山都市計畫']
+            //動到"college-list"這select元素後呼叫此方法
+            function change_area(index){
+                //跟剛剛一樣，製造一個字串，以html的語法填入系所的陣列
+                var Sinner="";
+                for(var i=0;i<sectors[index].length;i++){
+                    Sinner=Sinner+'<option value='+sectors[index][i]+'>'+sectors[index][i]+'</option>';
+                }
+                //抓到"sector-list"這select元素，修改其值
+                var sectorSelect=document.getElementById("area_list");
+                sectorSelect.innerHTML=Sinner;
+            }
+            //這裡呼叫一次"changeCollege"這方法，讓瀏覽器在讀完XML後可以直接讓系所的資料出來(商學院)
+            changeCollege(document.getElementById("district_list").selectedIndex);
+        </script>
+       
+        <!-- <form method="post" id="query-form">
+            查詢: <input type="text" value="臺北市華興段三小段141號" id="query" size="60">
+            <button type="submit">查詢</button>
+        </form>  -->
+      
+        <!-- <div class="row">
+            <div class="col-md-6">
+                API: <code id="api-url"></code><br> -->
+                <!-- 結果：
+                <ul id="query_result"></ul>
+                查詢記錄:
+                <ul id="query_log"></ul>
+                <div class="form-group">
+                    <textarea class="form-control load-content" rows="5"></textarea>
+                </div> -->
+        <div>
+        <h3>檔案說明</h3>
+        <ul>
+            <li>資料layer欄為土地使用分區編號，詳細編號對應可見以下檔案</li>
+        </ul>    
+        <h3>注意</h3>
+        <ul>
+            <li>資料是從 <a href="http://easymap.land.moi.gov.tw/">easymap.land.moi.gov.tw</a> 取得，但已經是 2015 年前的資料，可能已有變更，資料以政府為準，若有更精確需求請洽各地方地政局</li>
+            <li>如果發現政府資料也是畫錯的，請別急著罵政府，地籍資料許多是從日治時代測繪後就到今天沒變的，全面重測需要大量人力，若有疑問可以查詢各地方地政局「地籍重測」相關資訊。</li>
+            <li>關於地籍資料相關知識可參考 <a href="https://g0v.hackpad.com/ZrNxaKVn8jt">hackpad 友善地號資訊查詢界面</a></li>
+            <li>照上面 hackpad 所說，同一段名同一縣市內可能會有兩條不同段，例如 「新北市正義段」在蘆洲區和三重區都各有，因此用「<a href="/index/search?lands[]=新北市,正義段,1">新北市,正義段,1</a>」會回傳兩筆</li>
+            <li>若想查小號的話，可以用 {大號}-{小號}, 例如: 「「<a href="/index/search?lands[]=臺北市,華興段三小段,141-1">臺北市,華興段三小段,141-1</a>」」</li>
+            <li>若想測試結果，可將 API 回傳 GeoJSON 貼上 <a href="http://geojsonlint.com/">GeoJSON Lint</a> 預覽</li>
+        </ul>
+    
+    </div>
+
+</body>
+
+</html>
