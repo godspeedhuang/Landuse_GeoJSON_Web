@@ -5,20 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>土地使用分區geojson</title>
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
     <div class="container">
         <h1>土地使用分區 GeoJSON</h1>
         <form action="/search">
-            <p>請選擇縣市</p>
+            <h3>請選擇縣市</h3>
             <select name="district" id="district_list" onchange="change_area(this.selectedIndex)"></select>
             <br>
             <br>
-            <p>請選擇都計區</p>
+            <h3>請選擇都計區</h3>
             <select name="area" id="area_list"></select>
             <br>
             <br>
-            <button>下載</button>
+            <button>查詢</button>
         </form>
         <script type="text/javascript">
             var districts=['','高雄市','台南市'];
@@ -33,27 +34,18 @@
             }
             //innerHTML 賦值inner給這element屬性
             DistrictSelect.innerHTML=inner;
-            /*
-            其實就是用程式碼的方式把XML文件修改成這樣
-            <select id="college-list">
-                <option value="0">商學院</option>
-                <option value="1">工學院</option>
-                <option value="2">建設學院</option>
-                <option value="3">建築專業學院</option>		
-                ....		
-            </select>
-            */
+
             //這裡放系所的陣列(有順序性，對應各學院的資料)
             var sectors=new Array();
-            sectors[0]=['']
-            sectors[1]=['旗山都市計畫','美濃都市計畫','茄萣都市計畫']
-            sectors[2]=['高雄市都市計畫','高雄多功能經貿園區特定區計畫','鳳山主要計畫','岡山都市計畫']
+            sectors[0]=['','']
+            sectors[1]=['E0101', '高雄市都市計畫', 'E0301', '高雄多功能經貿園區特定區計畫', 'S0101', '鳳山主要計畫', 'S0102', '岡山都市計畫', 'S0103', '旗山都市計畫', 'S0104', '美濃都市計畫', 'S0201', '茄萣都市計畫', 'S0202', '湖內都市計畫', 'S0203', '湖內(大湖地區)都市計畫', 'S0204', '路竹都市計畫', 'S0205', '阿蓮都市計畫', 'S0206', '梓官都市計畫', 'S0207', '彌陀都市計畫', 'S0208', '大社都市計畫', 'S0209', '仁武都市計畫', 'S0210', '大樹都市計畫', 'S0211', '大樹(九曲堂地區)都市計畫', 'S0212', '大寮都市計畫', 'S0213', '燕巢都市計畫', 'S0214', '鳥松(仁美地區)都市計畫', 'S0215', '甲仙都市計畫', 'S0216', '大坪頂以東地區都市計畫', 'S0301', '澄清湖特定區計畫', 'S0302', '大坪頂特定區計畫', 'S0303', '六龜彩蝶谷風景特定區計畫', 'S0304', '美濃中正湖風景特定區計畫', 'S0305', '月世界風景特定區計畫', 'S0306', '蚵子寮近海漁業特定區計畫', 'S0307', '興達港漁業特定區計畫', 'S0308', '高速公路岡山交流道附近特定區計畫', 'S0309', '高速公路楠梓交流道附近特定區計畫(鳳山厝部分)', 'S0311', '高雄新市鎮特定區計畫']
+            sectors[2]=['D0101', '臺南市主要計畫', 'D0301', '臺南市安平港歷史風貌園區特定區計畫', 'R0101', '新營都市計畫', 'R0102', '鹽水都市計畫', 'R0103', '白河都市計畫', 'R0104', '佳里都市計畫', 'R0105', '新化都市計畫', 'R0106', '善化都市計畫', 'R0107', '學甲都市計畫', 'R0111', '永康六甲頂都市計畫', 'R0112', '官田(含隆田地區)都市計畫', 'R0201', '柳營都市計畫', 'R0202', '後壁都市計畫', 'R0203', '東山都市計畫', 'R0204', '下營都市計畫', 'R0205', '六甲都市計畫', 'R0208', '大內都市計畫', 'R0209', '西港都市計畫', 'R0210', '將軍漚汪地區都市計畫', 'R0211', '新市都市計畫', 'R0212', '安定都市計畫', 'R0213', '山上都市計畫', 'R0214', '玉井都市計畫', 'R0215', '楠西都市計畫', 'R0216', '仁德都市計畫', 'R0217', '仁德(文賢地區)都市計畫', 'R0218', '歸仁都市計畫', 'R0219', '關廟都市計畫', 'R0220', '七股都市計畫', 'R0301', '高速公路新營交流道附近特定區計畫', 'R0302', '高速公路麻豆交流道附近特定區計畫', 'R0303', '高速公路永康交流道附近特定區計畫', 'R0304', '高速公路台南交流道附近特定區計畫', 'R0305', '曾文水庫特定區計畫', 'R0306', '關子嶺(含枕頭山附近地區)特定區計畫', 'R0307', '南鯤鯓特定區計畫', 'R0308', '虎頭埤特定區計畫', 'R0309', '烏山頭水庫風景特定區計畫', 'R0310', '高速鐵路台南車站特定區計畫', 'R0311', '台南科學工業園區特定區計畫', 'R0312', '台南都會公園特定區計畫']
             //動到"college-list"這select元素後呼叫此方法
             function change_area(index){
                 //跟剛剛一樣，製造一個字串，以html的語法填入系所的陣列
                 var Sinner="";
-                for(var i=0;i<sectors[index].length;i++){
-                    Sinner=Sinner+'<option value='+sectors[index][i]+'>'+sectors[index][i]+'</option>';
+                for(var i=0;i<sectors[index].length;i+=2){
+                    Sinner=Sinner+'<option value='+sectors[index][i]+'>'+sectors[index][i+1]+'</option>';
                 }
                 //抓到"sector-list"這select元素，修改其值
                 var sectorSelect=document.getElementById("area_list");
@@ -63,36 +55,14 @@
             changeCollege(document.getElementById("district_list").selectedIndex);
         </script>
        
-        <!-- <form method="post" id="query-form">
-            查詢: <input type="text" value="臺北市華興段三小段141號" id="query" size="60">
-            <button type="submit">查詢</button>
-        </form>  -->
-      
-        <!-- <div class="row">
-            <div class="col-md-6">
-                API: <code id="api-url"></code><br> -->
-                <!-- 結果：
-                <ul id="query_result"></ul>
-                查詢記錄:
-                <ul id="query_log"></ul>
-                <div class="form-group">
-                    <textarea class="form-control load-content" rows="5"></textarea>
-                </div> -->
         <div>
-        <h3>檔案說明</h3>
+        <h3>資料說明</h3>
         <ul>
-            <li>資料layer欄為土地使用分區編號，詳細編號對應可見以下檔案 <a href="https://drive.google.com/file/d/1TiwO5sqQ8RWJqvjde5Vpla81YP3oGqTd/view?usp=sharing">都市計畫土地使用分區類別對照表</a></li>
-
+            <li>資料layer欄為土地使用分區編號(如:A01000對應類別為住宅區)，詳細編號對應可見以下檔案 <a href="https://drive.google.com/file/d/1TiwO5sqQ8RWJqvjde5Vpla81YP3oGqTd/view?usp=sharing">都市計畫土地使用分區類別對照表</a></li>
+            <li>資料來源： <a href="https://luz.tcd.gov.tw/web/default.aspx">全國土地使用分區資料查詢系統</a> 資料取得時間:110年08月</li>
+            <li>資料座標系統為TWD97</li>
+            <li>資料僅供學術研究使用，不得作為任何形式證明或主張</li>
         </ul>    
-        <h3>注意</h3>
-        <ul>
-            <li>資料是從 <a href="http://easymap.land.moi.gov.tw/">easymap.land.moi.gov.tw</a> 取得，但已經是 2015 年前的資料，可能已有變更，資料以政府為準，若有更精確需求請洽各地方地政局</li>
-            <li>如果發現政府資料也是畫錯的，請別急著罵政府，地籍資料許多是從日治時代測繪後就到今天沒變的，全面重測需要大量人力，若有疑問可以查詢各地方地政局「地籍重測」相關資訊。</li>
-            <li>關於地籍資料相關知識可參考 <a href="https://g0v.hackpad.com/ZrNxaKVn8jt">hackpad 友善地號資訊查詢界面</a></li>
-            <li>照上面 hackpad 所說，同一段名同一縣市內可能會有兩條不同段，例如 「新北市正義段」在蘆洲區和三重區都各有，因此用「<a href="/index/search?lands[]=新北市,正義段,1">新北市,正義段,1</a>」會回傳兩筆</li>
-            <li>若想查小號的話，可以用 {大號}-{小號}, 例如: 「「<a href="/index/search?lands[]=臺北市,華興段三小段,141-1">臺北市,華興段三小段,141-1</a>」」</li>
-            <li>若想測試結果，可將 API 回傳 GeoJSON 貼上 <a href="http://geojsonlint.com/">GeoJSON Lint</a> 預覽</li>
-        </ul>
     
     </div>
 

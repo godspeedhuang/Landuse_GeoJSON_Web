@@ -16,7 +16,7 @@ def index():
 def search():
     # district_num = request.args.get('distrct', '')
     area_num = request.args.get('area', '')
-    return redirect('S0101.geojson')
+    return redirect(area_num+'.geojson')
 
 
 if __name__ == '__main__':
