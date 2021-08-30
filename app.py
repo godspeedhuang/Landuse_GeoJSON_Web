@@ -15,7 +15,7 @@ def index():
 @app.route('/search')
 def search():
     area_num = request.args.get('area', '')
-    return redirect(area_num+'.geojson')
+    return redirect(area_num+'.json')
 
 
 if __name__ == '__main__':
