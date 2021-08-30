@@ -14,7 +14,6 @@ def index():
 
 @app.route('/search')
 def search():
-    # district_num = request.args.get('distrct', '')
     area_num = request.args.get('area', '')
     return redirect(area_num+'.geojson')
 
