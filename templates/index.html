@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>土地使用分區geojson</title>
+    <title>都市計畫土地使用分區geojson</title>
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./leaflet/leaflet.css">
+    <script src="./leaflet/leaflet.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>土地使用分區 GeoJSON</h1>
+        <h1>都市計畫土地使用分區 GeoJSON</h1>
+        <h3>使用方式</h3>
         <form action="/search">
             <h3>請選擇縣市</h3>
             <select name="district" id="district_list" onchange="change_area(this.selectedIndex)"></select>
@@ -54,17 +57,29 @@
             //這裡呼叫一次"changeCollege"這方法，讓瀏覽器在讀完XML後可以直接讓系所的資料出來(商學院)
             changeCollege(document.getElementById("district_list").selectedIndex);
         </script>
-       
+        <br>
+        <div id='mapid' style='width:100%'></div>
+        <script>
+            var myMap = L.map('mapid', {
+            center: [22.73444963475145, 120.28458595275877],
+            zoom: 14
+        });
+        </script>
+        <br>
         <div>
         <h3>資料說明</h3>
         <ul>
-            <li>資料layer欄為土地使用分區編號(如:A01000對應類別為住宅區)，詳細編號對應可見以下檔案 <a href="https://drive.google.com/file/d/1TiwO5sqQ8RWJqvjde5Vpla81YP3oGqTd/view?usp=sharing">都市計畫土地使用分區類別對照表</a></li>
-            <li>資料來源： <a href="https://luz.tcd.gov.tw/web/default.aspx">全國土地使用分區資料查詢系統</a> </li>
-            <li>資料取得時間:110年08月</li>  
+            <li>土地使用分區代碼(如:A01000對應類別為住宅區)，詳細代碼對應可見以下檔案 <a href="https://drive.google.com/file/d/1TiwO5sqQ8RWJqvjde5Vpla81YP3oGqTd/view?usp=sharing">都市計畫土地使用分區類別對照表</a></li>
+            <li>都市計畫區代碼(如:E0101對應為高雄市都市計畫)，詳細代碼對應可見以下檔案</li>
+            <li>資料來源： <a href="https://luz.tcd.gov.tw/web/default.aspx(https://luz.tcd.gov.tw/web/default.aspx)">全國土地使用分區資料查詢系統</a> </li>
+            <li>資料取得時間:110年08月，若有變更以政府資料為準</li>  
             <li>資料座標系統為TWD97</li>
-            <li>資料僅供學術研究使用，不得作為任何形式證明或主張</li>
+            
         </ul>    
-    
+        <h3>注意事項</h3>
+        <ul>
+            <li>資料僅供學術研究使用，不得作為任何形式證明或主張</li>
+        </ul>
     </div>
 
 </body>
