@@ -14,8 +14,8 @@ def index():
 
 @app.route('/search')
 def search():
-    area_num = request.args.get('area', '')
-    return redirect(area_num+'.json')
+    district_code = request.args.get('district', '')
+    return redirect(district_code+'.json')
 
 
 if __name__ == '__main__':
