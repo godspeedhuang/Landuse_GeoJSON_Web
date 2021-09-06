@@ -5,7 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>都市計畫土地使用分區geojson</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./leaflet/leaflet.css">
+    
+    <script src="./leaflet/leaflet.js"></script>
     <base target="_blank">
 </head>
 <body>
@@ -24,40 +28,45 @@
         <h4>API：</h4>
         <p class='api_url'>https://landuse.herokuapp.com/E0101.json</p>
         <p>說明： /後面接上計畫區代碼.json（ex:/E0101.json），計畫區代碼詳見資料說明第一點的檔案</p>
+        
+        <!-- 選項篩選 -->
         <script type="text/javascript">
-            var districts=['請選擇縣市','','高雄市','KHH','台南市','TNN','台中市','TXG','屏東縣','PIF'];
-            var DistrictSelect=document.getElementById("district_list");
-            var inner="";
-            for(var i=0;i<districts.length;i+=2){
+            let districts=['請選擇縣市','','高雄市','KHH','台南市','TNN','台中市','TXG','屏東縣','PIF'];
+            let districtSelect=document.getElementById("district_list");
+            let inner="";
+            for(let i=0;i<districts.length;i+=2){
                 inner=inner+'<option value='+districts[i+1]+'>'+districts[i]+'</option>';
             }
             
-            DistrictSelect.innerHTML=inner;
+            districtSelect.innerHTML=inner;
 
             
-            var sectors=new Array();
+            let sectors=new Array();
             sectors[0]=['','請選擇都計區']
             sectors[1]=['E0101', '高雄市都市計畫', 'E0301', '高雄多功能經貿園區特定區計畫', 'S0101', '鳳山主要計畫', 'S0102', '岡山都市計畫', 'S0103', '旗山都市計畫', 'S0104', '美濃都市計畫', 'S0201', '茄萣都市計畫', 'S0202', '湖內都市計畫', 'S0203', '湖內(大湖地區)都市計畫', 'S0204', '路竹都市計畫', 'S0205', '阿蓮都市計畫', 'S0206', '梓官都市計畫', 'S0207', '彌陀都市計畫', 'S0208', '大社都市計畫', 'S0209', '仁武都市計畫', 'S0210', '大樹都市計畫', 'S0211', '大樹(九曲堂地區)都市計畫', 'S0212', '大寮都市計畫', 'S0213', '燕巢都市計畫', 'S0214', '鳥松(仁美地區)都市計畫', 'S0215', '甲仙都市計畫', 'S0216', '大坪頂以東地區都市計畫', 'S0301', '澄清湖特定區計畫', 'S0302', '大坪頂特定區計畫', 'S0303', '六龜彩蝶谷風景特定區計畫', 'S0304', '美濃中正湖風景特定區計畫', 'S0305', '月世界風景特定區計畫', 'S0306', '蚵子寮近海漁業特定區計畫', 'S0307', '興達港漁業特定區計畫', 'S0308', '高速公路岡山交流道附近特定區計畫', 'S0309', '高速公路楠梓交流道附近特定區計畫(鳳山厝部分)', 'S0311', '高雄新市鎮特定區計畫']
             sectors[2]=['D0101', '臺南市主要計畫', 'D0301', '臺南市安平港歷史風貌園區特定區計畫', 'R0101', '新營都市計畫', 'R0102', '鹽水都市計畫', 'R0103', '白河都市計畫', 'R0104', '佳里都市計畫', 'R0105', '新化都市計畫', 'R0106', '善化都市計畫', 'R0107', '學甲都市計畫', 'R0111', '永康六甲頂都市計畫', 'R0112', '官田(含隆田地區)都市計畫', 'R0201', '柳營都市計畫', 'R0202', '後壁都市計畫', 'R0203', '東山都市計畫', 'R0204', '下營都市計畫', 'R0205', '六甲都市計畫', 'R0208', '大內都市計畫', 'R0209', '西港都市計畫', 'R0210', '將軍漚汪地區都市計畫', 'R0211', '新市都市計畫', 'R0212', '安定都市計畫', 'R0213', '山上都市計畫', 'R0214', '玉井都市計畫', 'R0215', '楠西都市計畫', 'R0216', '仁德都市計畫', 'R0217', '仁德(文賢地區)都市計畫', 'R0218', '歸仁都市計畫', 'R0219', '關廟都市計畫', 'R0220', '七股都市計畫', 'R0301', '高速公路新營交流道附近特定區計畫', 'R0302', '高速公路麻豆交流道附近特定區計畫', 'R0303', '高速公路永康交流道附近特定區計畫', 'R0304', '高速公路台南交流道附近特定區計畫', 'R0305', '曾文水庫特定區計畫', 'R0306', '關子嶺(含枕頭山附近地區)特定區計畫', 'R0307', '南鯤鯓特定區計畫', 'R0308', '虎頭埤特定區計畫', 'R0309', '烏山頭水庫風景特定區計畫', 'R0310', '高速鐵路台南車站特定區計畫', 'R0311', '台南科學工業園區特定區計畫', 'R0312', '台南都會公園特定區計畫']
             sectors[3]=['B0103', '臺中市都市計畫主要計畫', 'B0301', '臺中市大坑風景特定區計畫', 'L0107', '東勢都市計畫', 'L0108', '大甲都市計畫', 'L0109', '大甲(日南地區)都市計畫', 'L0110', '臺中市大平霧地區都市計畫', 'L0111', '臺中市豐潭雅神地區都市計畫', 'L0201', '后里都市計畫', 'L0205', '新社都市計畫', 'L0206', '外埔都市計畫', 'L0207', '大安都市計畫', 'L0208', '烏日都市計畫', 'L0209', '大肚都市計畫', 'L0302', '高速公路王田交流道附近特定區計畫', 'L0303', '台中港特定區計畫', 'L0304', '石岡水壩特定區計畫', 'L0305', '谷關風景特定區計畫', 'L0306', '梨山風景特定區計畫', 'L0307', '梨山(新佳陽地區)風景特定區計畫', 'L0308', '梨山(松茂地區)風景特定區計畫', 'L0309', '梨山(環山地區)風景特定區計畫', 'L0310', '鐵砧山風景特定區計畫', 'L0311', '中部科學工業園區台中基地附近特定區計畫']
             sectors[4]=['T0101', '屏東都市計畫', 'T0102', '潮州都市計畫', 'T0103', '東港都市計畫', 'T0104', '恆春都市計畫', 'T0201', '高樹都市計畫', 'T0202', '里港都市計畫', 'T0203', '鹽埔都市計畫', 'T0204', '九如都市計畫', 'T0205', '長治都市計畫', 'T0206', '內埔(龍泉地區)都市計畫', 'T0207', '麟洛都市計畫', 'T0208', '內埔(豐田地區)都市計畫', 'T0209', '內埔都市計畫', 'T0210', '萬丹都市計畫', 'T0211', '竹田都市計畫', 'T0212', '萬巒都市計畫', 'T0213', '新園都市計畫', 'T0214', '崁頂都市計畫', 'T0215', '新園(烏龍地區)都市計畫', 'T0216', '南州都市計畫', 'T0217', '新埤都市計畫', 'T0218', '林邊都市計畫', 'T0219', '佳冬都市計畫', 'T0220', '枋寮(水底寮地區)都市計畫', 'T0221', '枋寮都市計畫', 'T0222', '車城都市計畫', 'T0223', '滿州都市計畫', 'T0301', '鹽埔漁港特定區計畫', 'T0302', '大鵬灣風景特定區計畫', 'T0303', '琉球風景特定區計畫']
 
-            function change_area(index){
-                
-                var Sinner="";
-                for(var i=0;i<sectors[index].length;i+=2){
+            function change_area(index){ 
+                let Sinner="";
+                for(let i=0;i<sectors[index].length;i+=2){
                     Sinner=Sinner+'<option value='+sectors[index][i]+'>'+sectors[index][i+1]+'</option>';
                 }
                 
-                var sectorSelect=document.getElementById("area_list");
+                let sectorSelect=document.getElementById("area_list");
                 sectorSelect.innerHTML=Sinner;
-            }
+            };
             
-            changeCollege(document.getElementById("district_list").selectedIndex);
+            change_area(document.getElementById("district_list").selectedIndex);
+
         </script>
         <br>
         <br>
-        <div>
+
+        <!-- 地圖位置 -->
+        <div id='mapid' style="height: 400px;width: 800px;"></div>
+
         <h3>資料說明</h3>
         <ul>
             <li>該JSON檔為geoJSON形式，下載後可直接於GIS軟體中使用。</li>
@@ -65,7 +74,7 @@
             <li>第二攔'landuse_code'為土地使用分區代碼(如:A01000對應分區為住宅區)，詳細代碼對應分區請見  <a href="https://drive.google.com/file/d/1H0nkrodlh3iwDWqdDvLowvDdtQ_kZn2j/view?usp=sharing">土地使用分區代碼類別對照表</a></li>
             <li>第三欄'date'為資料取得時間，大多皆為110年8月至9月，若有變更則以政府資料為準。</li>
             <li>資料來源：<a href="https://luz.tcd.gov.tw/web/default.aspx"> 全國土地使用分區資料查詢系統(https://luz.tcd.gov.tw/web/default.aspx)</a> </li>  
-            <li>資料座標系統為TWD97</li>
+            <li>資料座標系統為epsg3857</li>
             
         </ul>    
         <h3>注意事項</h3>
@@ -75,5 +84,6 @@
     </div>
 
 </body>
-
+<script src="./js/app.js"></script>
+<script src="./js/map.js"></script>
 </html>
