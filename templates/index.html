@@ -4,30 +4,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <title>都市計畫土地使用分區geojson</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
     <link rel="stylesheet" href="./styles/style.css">
-    <link rel="stylesheet" href="./leaflet/leaflet.css">
-    
-    <script src="./leaflet/leaflet.js"></script>
     <base target="_blank">
 </head>
 <body>
     <div class="container">
-        <h1>都市計畫土地使用分區 GeoJSON</h1>
-        <h3>使用方式</h3>
-        <h4>查詢：</h4>
-        <form action="/search">
-            縣市　　<select name="county" id="district_list" onchange="change_area(this.selectedIndex)"></select>
-            <br>
-            都計區　<select name="district" id="area_list"></select>
-            <br>
-            <br>
-            <button>查詢</button>
-        </form>
-        <h4>API：</h4>
-        <p class='api_url'>https://landuse.herokuapp.com/E0101.json</p>
-        <p>說明： /後面接上計畫區代碼.json（ex:/E0101.json），計畫區代碼詳見資料說明第一點的檔案</p>
+        <div class="row">
+            <div class="col">
+                <h1 style="margin: 1.5rem auto;">土地使用分區 GeoJSON</h1>
+                <h3>使用方式</h3>
+                <h4>查詢：</h4>
+                <form action="/search">
+                    縣市　　<select name="county" id="district_list" onchange="change_area(this.selectedIndex)"></select>
+                    <br>
+                    都計區　<select name="district" id="area_list"></select>
+                    <br>
+                    <br>
+                    <button>下載</button>
+                </form>
+                <br>
+                <h4>API：</h4>
+                <code class='api_url'>https://landuse.herokuapp.com/E0101.json</code>
+                <p>說明： /後面接上計畫區代碼.json（ex:/E0101.json），計畫區代碼詳見資料說明第一點的檔案</p>
+            </div>
+            <!-- <div class="col" id="map" style="height: 180px"></div> -->
+        </div>
+        
         
         <!-- 選項篩選 -->
         <script type="text/javascript">
@@ -83,17 +96,22 @@
         <br>
 
         <!-- 地圖位置 -->
-        <div id='mapid' style="height: 400px;width: 800px;"></div>
+        <!-- <div id='mapid' style="height: 400px;width: 800px;"></div> -->
 
         <h3>資料說明</h3>
         <ul>
             <li>該JSON檔為geoJSON形式，下載後可直接於GIS軟體中使用。</li>
-            <li>第一欄'district_code'為都市計畫區代碼(如:E0101對應計畫區為高雄市都市計畫)，詳細代碼對應計畫區請見  <a href="https://drive.google.com/file/d/1uICA1nVQ5P7D0QQ6JIJ4p4uPPItY4ahL/view?usp=sharing">都市計畫區代碼名稱對照表</a></li>
+            <!-- <li>第一欄'district_code'為都市計畫區代碼(如:E0101對應計畫區為高雄市都市計畫)，詳細代碼對應計畫區請見  <a href="https://drive.google.com/file/d/1uICA1nVQ5P7D0QQ6JIJ4p4uPPItY4ahL/view?usp=sharing">都市計畫區代碼名稱對照表</a></li>
             <li>第二攔'landuse_code'為土地使用分區代碼(如:A01000對應分區為住宅區)，詳細代碼對應分區請見  <a href="https://drive.google.com/file/d/1H0nkrodlh3iwDWqdDvLowvDdtQ_kZn2j/view?usp=sharing">土地使用分區代碼類別對照表</a></li>
             <li>第三欄'date'為資料取得時間，大多皆為110年8月至9月，若有變更則以政府資料為準。</li>
-            <li>資料來源：<a href="https://luz.tcd.gov.tw/web/default.aspx"> 全國土地使用分區資料查詢系統(https://luz.tcd.gov.tw/web/default.aspx)</a> </li>  
-            <li>資料座標系統為epsg3857</li>
+            <li>資料來源：<a href="https://luz.tcd.gov.tw/web/default.aspx"> 全國土地使用分區資料查詢系統(https://luz.tcd.gov.tw/web/default.aspx)</a> </li>   -->
+            <li>資料時間為民國109年</li>
+            <li>資料座標系統為TWD97</li>
             
+        </ul>
+        <h3>資料協作</h3>
+        <ul>
+            <li>資料協作平台</li>
         </ul>    
         <h3>注意事項</h3>
         <ul>
@@ -103,5 +121,4 @@
 
 </body>
 <script src="./js/app.js"></script>
-<script src="./js/map.js"></script>
 </html>
