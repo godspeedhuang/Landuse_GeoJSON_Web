@@ -41,6 +41,6 @@ landuse_GeoJSON_web/
 ### 5. 若網頁無法開啟，可於`static`資料夾找到全國土地使用分區GeoJSON檔案，並根據`preprocess`中的`county_district`資料夾找到各土地使用分區對應之代碼，並下載之。
 
 ## 其他
-[Medium文章分享](https://medium.com/@godspeed_huang/%E5%9C%9F%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%88%86%E5%8D%80%E5%9C%96%E8%B3%87%E5%8F%96%E5%BE%97-b0a80774c9b2)
-[Demo影片](https://youtu.be/HBMdp_R6kuI)
+- [Medium文章分享](https://medium.com/@godspeed_huang/%E5%9C%9F%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%88%86%E5%8D%80%E5%9C%96%E8%B3%87%E5%8F%96%E5%BE%97-b0a80774c9b2)
+- [Demo影片](https://youtu.be/HBMdp_R6kuI)
 
